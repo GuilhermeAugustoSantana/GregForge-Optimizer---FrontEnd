@@ -1,7 +1,8 @@
 import React, { useState } from "react";
+import type { CalcularRequest } from "../../types/calcular";
 
 interface FormularioProps {
-  onCalcular: (dados: { metaLingotes: number, mineriosSelecionados: string[] }) => void
+  onCalcular: (dados: CalcularRequest) => void
 }
 
 export const Formulario = ({ onCalcular }: FormularioProps) => {
@@ -16,10 +17,12 @@ export const Formulario = ({ onCalcular }: FormularioProps) => {
     });
   }
   return (
-    <form onSubmit={handleSubmit}>
-      <label htmlFor="meta">Quantidade de Lingotes</label>
-      <input id="meta" type="number" value={meta} onChange={(e) => { setMeta(e.target.value) }} />
-      <button type="submit">Calcular proporção</button>
-    </form>
+    <section>
+      <form onSubmit={handleSubmit}>
+        <label htmlFor="meta">Quantidade de Lingotes</label>
+        <input id="meta" type="number" value={meta} onChange={(e) => { setMeta(e.target.value) }} />
+        <button type="submit">Calcular proporção</button>
+      </form>
+    </section>
   );
 };
