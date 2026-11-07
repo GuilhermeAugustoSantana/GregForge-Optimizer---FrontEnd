@@ -1,11 +1,16 @@
 // @meta-test environment jsdom
 import { describe, it, expect, vi } from "vitest";
-import { renderHook, act } from "@testing-library/react";
+import { renderHook, act, waitFor } from "@testing-library/react";
 import { enviarDadosCalculador } from "../services/api";
 import { useCalculador } from "./useCalculador";
 
 vi.mock("../services/api", () => ({
   enviarDadosCalculador: vi.fn(),
+  receberListaMinerios: vi
+    .fn()
+    .mockResolvedValue([
+      { id: "copper_native_copper_raw_normal", nome: "Native copper", mb: 36 },
+    ]),
 }));
 
 describe("testando o Hook de Cálculo", () => {
@@ -16,11 +21,11 @@ describe("testando o Hook de Cálculo", () => {
     expect(result.current.erro).toBeNull();
   });
 
-  it('Deve gerenciar os estados de carregamento e sucesso ao calcular', async () => {
+  it("Deve gerenciar os estados de carregamento e sucesso ao calcular", async () => {
     const dados = {
       metaLingotes: 6,
-      mineriosSelecionados: ['Native copper', 'Malachite']
-    }
+      mineriosSelecionados: ["Native copper", "Malachite"],
+    };
 
     const responsaSucesso = {
       metaLingotes: 6,
@@ -29,19 +34,29 @@ describe("testando o Hook de Cálculo", () => {
         "Native copper": 1,
         Malachite: 24,
       },
-    }
+    };
 
     vi.mocked(enviarDadosCalculador).mockResolvedValueOnce(responsaSucesso);
-    
+
     const { result } = renderHook(() => useCalculador());
 
     await act(async () => {
       await result.current.calcularProporcao(dados);
-    })
+    });
 
     expect(result.current.carregando).toBe(false);
     expect(result.current.resultado).toEqual(responsaSucesso);
     expect(result.current.resultado?.desperdicio_mb).toBe(1);
     expect(result.current.erro).toBeNull();
+  });
+
+  it("Deve buscar e armazenar a lista de minérios da API ao inicializar o hook", async () => {
+    const { result } = renderHook(() => useCalculador());
+
+    await waitFor(() => {
+      expect(result.current.listaMinerios).not.toBeNull();
+      expect(result.current.listaMinerios).length(1);
+      expect(result.current.erro).toBeNull();
+    });
   });
 });
