@@ -8,6 +8,7 @@ interface FormularioProps {
 export const Formulario = ({ onCalcular }: FormularioProps) => {
   const [meta, setMeta] = useState('');
 
+
   const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
 

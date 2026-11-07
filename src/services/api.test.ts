@@ -1,8 +1,8 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import type { CalcularRequest, CalcularResponse } from "../types/calcular";
-import { enviarDadosCalculador } from "./api";
+import { enviarDadosCalculador, receberListaMinerios } from "./api";
 
-describe("testando o Serviço de API do Otimizado", () => {
+describe("testando o Serviço post da API do Otimizador", () => {
   it("Deve enviar os dados do formulário e retornar a resposta tipada com sucesso", async () => {
     const request: CalcularRequest = {
       metaLingotes: 6,
@@ -18,13 +18,10 @@ describe("testando o Serviço de API do Otimizado", () => {
       },
     };
 
-    vi.stubGlobal(
-      "fetch",
-      vi.fn().mockResolvedValue({
-        ok: true,
-        json: async () => response,
-      }),
-    );
+    vi.spyOn(globalThis, "fetch").mockResolvedValue({
+      ok: true,
+      json: async () => response,
+    } as Response);
 
     const result = await enviarDadosCalculador(request);
 
@@ -33,9 +30,51 @@ describe("testando o Serviço de API do Otimizado", () => {
     expect(result["minérios necessários"]["Native copper"]).toBe(1);
     expect(result["minérios necessários"]["Malachite"]).toBe(24);
 
-    expect(fetch).toHaveBeenCalledWith(
+    expect(globalThis.fetch).toHaveBeenCalledWith(
       expect.stringContaining("/calcular"),
       expect.any(Object),
+    );
+  });
+});
+
+describe("testando o serviço get da APi do Otimizador", () => {
+  beforeEach(() => {
+    vi.restoreAllMocks();
+  });
+  it("Deve receber os dados dos minérios da api", async () => {
+    const response = [
+      {
+        id: "copper_native_copper_dust_tiny",
+        nome: "Tiny pile of copper",
+        mb: 16,
+      },
+    ];
+
+    vi.spyOn(globalThis, "fetch").mockResolvedValue({
+      ok: true,
+      json: async () => response,
+    } as Response);
+
+    const listaMinerios = await receberListaMinerios();
+
+    expect(listaMinerios).toEqual(response);
+    expect(listaMinerios).toHaveLength(1);
+    expect(listaMinerios[0].id).toBe("copper_native_copper_dust_tiny");
+
+    expect(globalThis.fetch).toHaveBeenCalledWith(
+      expect.stringContaining("/minerios"),
+      expect.any(Object),
+    );
+  });
+
+  it("Deve estourar um erro com mensagem amigável caso o servidor falhe", async () => {
+    vi.spyOn(globalThis, "fetch").mockResolvedValue({
+      ok: false,
+    } as Response);
+    const resposta = receberListaMinerios();
+
+    await expect(resposta).rejects.toThrow(
+      "Não foi possível carregar a lista de minérios.",
     );
   });
 });

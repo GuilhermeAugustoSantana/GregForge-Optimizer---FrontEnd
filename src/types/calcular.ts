@@ -8,3 +8,9 @@ export interface CalcularResponse {
   desperdicio_mb: number;
   "minérios necessários": Record<string, number>;
 }
+
+export interface MineriosItem {
+  id: string;
+  nome: string;
+  mb: number;
+}
