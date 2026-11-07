@@ -27,3 +27,6 @@ dist-ssr
 *.eslintcache
 *.log
 .vite/
+
+# Test coverage
+coverage/

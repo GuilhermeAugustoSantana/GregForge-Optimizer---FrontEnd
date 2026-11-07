@@ -16,7 +16,7 @@ export const StatusCalculo = ({ carregando, erro }: StatusCalculoProps) => {
   if (erro) {
     return (
       <section>
-        <p>Erro ao conectar</p>
+        <p>{erro}</p>
       </section>
     );
   }

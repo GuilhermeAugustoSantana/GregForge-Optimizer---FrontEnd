@@ -18,10 +18,31 @@ describe("Testando a Integração Completa no App.tsx", () => {
       },
     };
 
-    vi.spyOn(globalThis, "fetch").mockResolvedValue({
-      ok: true,
-      json: async () => RespostaDadosApi,
-    } as Response);
+    vi.spyOn(globalThis, "fetch").mockImplementation(async (url) => {
+      const urlString = url.toString();
+
+      if (urlString.includes("/minerios")) {
+        return {
+          ok: true,
+          json: async () => [
+            {
+              id: "copper_native_copper_dust_tiny",
+              nome: "Tiny pile of copper",
+              mb: 16,
+            },
+          ],
+        } as Response;
+      }
+      
+      if (urlString.includes("/calcular")) {
+        return {
+          ok: true,
+          json: async () => RespostaDadosApi,
+        } as Response;
+      }
+
+      return { ok: false } as Response;
+    });
 
     render(createElement(App));
 

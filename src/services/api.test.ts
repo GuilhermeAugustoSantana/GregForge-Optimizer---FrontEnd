@@ -6,7 +6,13 @@ describe("testando o Serviço post da API do Otimizador", () => {
   it("Deve enviar os dados do formulário e retornar a resposta tipada com sucesso", async () => {
     const request: CalcularRequest = {
       metaLingotes: 6,
-      mineriosSelecionados: ["Native copper", "Malachite"],
+      mineriosSelecionados: [
+        {
+          id: "copper_native_copper_dust_tiny",
+          nome: "Tiny pile of copper",
+          mb: 16,
+        },
+      ],
     };
 
     const response: CalcularResponse = {
