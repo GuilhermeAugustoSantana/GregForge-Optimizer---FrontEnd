@@ -12,6 +12,8 @@ describe("testando o FormularioCalculador", () => {
         onCalcular: mockSubmit,
         listaMinerios: [],
         carregando: false,
+        setMinerioPesquisado: vi.fn(),
+        minerioPesquisado: "",
       }),
     );
 
@@ -49,6 +51,8 @@ describe("testando o FormularioCalculador", () => {
         onCalcular: mockSubmit,
         listaMinerios: listaMinerio,
         carregando: false,
+        setMinerioPesquisado: vi.fn(),
+        minerioPesquisado: "",
       }),
     );
 

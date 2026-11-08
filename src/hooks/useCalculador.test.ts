@@ -6,11 +6,10 @@ import { useCalculador } from "./useCalculador";
 
 vi.mock("../services/api", () => ({
   enviarDadosCalculador: vi.fn(),
-  receberListaMinerios: vi
-    .fn()
-    .mockResolvedValue([
-      { id: "copper_native_copper_raw_normal", nome: "Native copper", mb: 36 },
-    ]),
+  receberListaMinerios: vi.fn().mockResolvedValue([
+    { id: "copper_native_copper_raw_normal", nome: "Native copper", mb: 36 },
+    { id: "tin_native_tin_raw_normal", nome: "Native tin", mb: 36 },
+  ]),
 }));
 
 describe("testando o Hook de Cálculo", () => {
@@ -25,7 +24,11 @@ describe("testando o Hook de Cálculo", () => {
     const dados = {
       metaLingotes: 6,
       mineriosSelecionados: [
-        { id: "copper_native_copper_raw_normal", nome: "Native copper", mb: 36 },
+        {
+          id: "copper_native_copper_raw_normal",
+          nome: "Native copper",
+          mb: 36,
+        },
         { id: "malachite", nome: "Malachite", mb: 24 },
       ],
     };
@@ -58,8 +61,24 @@ describe("testando o Hook de Cálculo", () => {
 
     await waitFor(() => {
       expect(result.current.listaMinerios).not.toBeNull();
-      expect(result.current.listaMinerios).length(1);
+      expect(result.current.listaMinerios).length(2);
       expect(result.current.erro).toBeNull();
     });
+  });
+
+  it("Deve mudar a lista de minérios da API com o filtro de pesquisa que o usuario informou", async () => {
+    const { result } = renderHook(() => useCalculador());
+
+    await waitFor(() => {
+      expect(result.current.listaMinerios).length(2);
+    });
+
+    act(() => {
+      result.current.setMinerioPesquisado("copper");
+    });
+
+    expect(result.current.minerioPesquisado).toBe("copper");
+    expect(result.current.listaMinerios).length(1);
+    expect(result.current.listaMinerios[0].nome).toBe("Native copper");
   });
 });

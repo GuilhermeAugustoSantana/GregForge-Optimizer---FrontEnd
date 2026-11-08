@@ -11,6 +11,11 @@ export const useCalculador = () => {
   const [resultado, setResultado] = useState<CalcularResponse | null>(null);
   const [carregando, setCarregando] = useState(false);
   const [erro, setErro] = useState<string | null>(null);
+  const [minerioPesquisado, setMinerioPesquisado] = useState<string>("");
+
+  const mineriosFiltrados = listaMinerios.filter((minerio) =>
+    minerio.nome.toLowerCase().includes(minerioPesquisado.toLowerCase()),
+  );
 
   const calcularProporcao = async (dados: CalcularRequest) => {
     setCarregando(true);
@@ -59,5 +64,13 @@ export const useCalculador = () => {
     void carregarMinerios();
   }, []);
 
-  return { resultado, carregando, erro, calcularProporcao, listaMinerios };
+  return {
+    resultado,
+    carregando,
+    erro,
+    calcularProporcao,
+    listaMinerios: mineriosFiltrados,
+    setMinerioPesquisado,
+    minerioPesquisado,
+  };
 };
