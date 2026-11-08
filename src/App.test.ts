@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { createElement } from "react";
 import { App } from "./App";
+import type { CalcularResponse } from "./types/calcular";
 
 describe("Testando a Integração Completa no App.tsx", () => {
   beforeEach(() => {
@@ -9,9 +10,9 @@ describe("Testando a Integração Completa no App.tsx", () => {
   });
 
   it("Deve preencher a meta, clicar em calcular e exibir o relatório final na tela", async () => {
-    const RespostaDadosApi = {
+    const RespostaDadosApi: CalcularResponse = {
       metaLingotes: 6,
-      desperdicio_mb: 1,
+      desperdício_mb: 1,
       "minérios necessários": {
         "Native copper": 1,
         Malachite: 24,
@@ -27,13 +28,13 @@ describe("Testando a Integração Completa no App.tsx", () => {
           json: async () => [
             {
               id: "copper_native_copper_dust_tiny",
-              nome: "Tiny pile of copper",
+              nome: "Native copper",
               mb: 16,
             },
           ],
         } as Response;
       }
-      
+
       if (urlString.includes("/calcular")) {
         return {
           ok: true,
@@ -47,8 +48,10 @@ describe("Testando a Integração Completa no App.tsx", () => {
     render(createElement(App));
 
     const inputsMeta = screen.getByLabelText(/Quantidade de lingotes/i);
-
     fireEvent.change(inputsMeta, { target: { value: "6" } });
+
+    const checkboxMinerio = await screen.findByLabelText(/Native copper: 16/i);
+    fireEvent.click(checkboxMinerio);
 
     const botaoCalcular = screen.getByRole("button", {
       name: /Calcular Proporção/i,
@@ -57,10 +60,13 @@ describe("Testando a Integração Completa no App.tsx", () => {
     fireEvent.click(botaoCalcular);
 
     await waitFor(() => {
-      expect(screen.queryByText(/Meta Lingote: 6/i)).not.toBeNull();
-      expect(screen.queryByText(/Desperdício mB: 1 mB/i)).not.toBeNull();
-      expect(screen.queryByText(/Native copper: 1/i)).not.toBeNull();
-      expect(screen.queryByText(/Malachite: 24/i)).not.toBeNull();
+      const painel = screen.getByRole("heading", {
+        name: /Relatório de Otimização/i,
+      }).parentElement;
+      expect(painel?.textContent).toMatch(/Meta Lingote: 6/i);
+      expect(painel?.textContent).toMatch(/Desperdício mB: 1 mB/i);
+      expect(painel?.textContent).toMatch(/Native copper: 1/);
+      expect(painel?.textContent).toMatch(/Malachite: 24/);
     });
   });
 });

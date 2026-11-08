@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { createElement } from "react";
 import { PainelResultado } from "../PainelResultado";
+import type { CalcularResponse } from "../../types/calcular";
 
 describe("Testando o componente PainelResultado", () => {
   it("Componente deve estar escondido se não ouver resultado", () => {
@@ -10,9 +11,9 @@ describe("Testando o componente PainelResultado", () => {
   });
 
   it("Componente deve exibir desperdício em mB e a lista com as quantidade de minérios necessários", () => {
-    const mockResultado = {
+    const mockResultado: CalcularResponse = {
       metaLingotes: 6,
-      desperdicio_mb: 1,
+      desperdício_mb: 1,
       "minérios necessários": { "Native copper": 1, Malachite: 24 },
     };
 

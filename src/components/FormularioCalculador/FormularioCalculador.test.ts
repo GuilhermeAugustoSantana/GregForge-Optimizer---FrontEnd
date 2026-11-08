@@ -58,6 +58,4 @@ describe("testando o FormularioCalculador", () => {
 
     expect(checkBoxCobre).toHaveProperty("checked", false);
   });
-
-  it("Deve ")
 });

@@ -11,7 +11,7 @@ export const PainelResultado = ({ resultado }: PainelResultadoProps) => {
 
   const metaLingote = resultado.metaLingotes;
   const desperdício_mb = resultado.desperdício_mb;
-  const mineraisNecessarios = resultado["minérios necessários"] ?? {};
+  const mineraisNecessarios = resultado["minérios necessários"];
 
   return (
     <section>
