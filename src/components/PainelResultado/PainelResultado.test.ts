@@ -13,7 +13,7 @@ describe("Testando o componente PainelResultado", () => {
   it("Componente deve exibir desperdício em mB e a lista com as quantidade de minérios necessários", () => {
     const mockResultado: CalcularResponse = {
       metaLingotes: 6,
-      desperdício_mb: 1,
+      desperdicio_mb: 1,
       "minérios necessários": { "Native copper": 1, Malachite: 24 },
     };
 

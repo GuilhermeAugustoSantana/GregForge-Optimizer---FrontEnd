@@ -12,7 +12,7 @@ describe("Testando a Integração Completa no App.tsx", () => {
   it("Deve preencher a meta, clicar em calcular e exibir o relatório final na tela", async () => {
     const RespostaDadosApi: CalcularResponse = {
       metaLingotes: 6,
-      desperdício_mb: 1,
+      desperdicio_mb: 1,
       "minérios necessários": {
         "Native copper": 1,
         Malachite: 24,

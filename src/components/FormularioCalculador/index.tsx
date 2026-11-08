@@ -1,16 +1,17 @@
 import React, { useState } from "react";
-import type { CalcularRequest, MineriosItem } from "../../types/calcular";
+import type { CalcularRequest, MinerioItem } from "../../types/calcular";
+import { Card } from "../Card";
 
 interface FormularioProps {
   onCalcular: (dados: CalcularRequest) => void,
-  listaMinerios: MineriosItem[] | null,
+  listaMinerios: MinerioItem[] | null,
   carregando: boolean,
 }
 
 export const Formulario = ({ onCalcular, listaMinerios = [], carregando }: FormularioProps) => {
   const [meta, setMeta] = useState('');
-  const [mineriosSelecionados, setMineriosSelecionados] = useState<MineriosItem[]>([]);
-  const alternarMinerioNaLista = (minerio: MineriosItem) => {
+  const [mineriosSelecionados, setMineriosSelecionados] = useState<MinerioItem[]>([]);
+  const alternarMinerioNaLista = (minerio: MinerioItem) => {
     if (mineriosSelecionados.some((item) => item.id === minerio.id)) {
       setMineriosSelecionados(mineriosSelecionados.filter((item) => item.id !== minerio.id))
     } else {
@@ -34,8 +35,7 @@ export const Formulario = ({ onCalcular, listaMinerios = [], carregando }: Formu
         <ul>
           {listaMinerios && listaMinerios.map(({ id, nome, mb }) => (
             <li key={id}>
-              <input id={id} type="checkbox" disabled={carregando} checked={mineriosSelecionados.some((item) => item.id === id)} onChange={() => alternarMinerioNaLista({ id, nome, mb })} />
-              <label htmlFor={id}>{nome}: {mb} mb</label>
+              <Card minerio={{ id, nome, mb }} carregando={carregando} estaSelecionado={mineriosSelecionados.some((item) => item.id === id)} aoAlternar={() => alternarMinerioNaLista({ id, nome, mb })} />
             </li>
           ))}
         </ul>

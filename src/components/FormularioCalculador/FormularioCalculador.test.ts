@@ -2,7 +2,7 @@ import { describe, it, expect, vi } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { createElement } from "react";
 import { Formulario } from "../FormularioCalculador";
-import type { MineriosItem } from "../../types/calcular";
+import type { MinerioItem } from "../../types/calcular";
 
 describe("testando o FormularioCalculador", () => {
   const mockSubmit = vi.fn();
@@ -36,7 +36,7 @@ describe("testando o FormularioCalculador", () => {
   });
 
   it("Deve renderizar os checkboxes dinamicamente com base na lista de minérios fornecida", () => {
-    const listaMinerio: MineriosItem[] = [
+    const listaMinerio: MinerioItem[] = [
       {
         id: "copper_native_copper_dust_tiny",
         nome: "Tiny pile of copper",

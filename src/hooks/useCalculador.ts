@@ -1,13 +1,13 @@
 import type {
   CalcularRequest,
   CalcularResponse,
-  MineriosItem,
+  MinerioItem,
 } from "./../types/calcular";
 import { enviarDadosCalculador, receberListaMinerios } from "../services/api";
 import { useState, useEffect } from "react";
 
 export const useCalculador = () => {
-  const [listaMinerios, setListaMinerios] = useState<MineriosItem[]>([]);
+  const [listaMinerios, setListaMinerios] = useState<MinerioItem[]>([]);
   const [resultado, setResultado] = useState<CalcularResponse | null>(null);
   const [carregando, setCarregando] = useState(false);
   const [erro, setErro] = useState<string | null>(null);

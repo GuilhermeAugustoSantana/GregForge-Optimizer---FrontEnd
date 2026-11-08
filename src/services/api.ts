@@ -1,7 +1,7 @@
 import type {
   CalcularRequest,
   CalcularResponse,
-  MineriosItem,
+  MinerioItem,
 } from "../types/calcular";
 
 export const enviarDadosCalculador = async (
@@ -18,7 +18,7 @@ export const enviarDadosCalculador = async (
   return (await response.json()) as Promise<CalcularResponse>;
 };
 
-export const receberListaMinerios = async (): Promise<MineriosItem[]> => {
+export const receberListaMinerios = async (): Promise<MinerioItem[]> => {
   const response = await fetch(`${import.meta.env.VITE_API_URL}/minerios`, {
     method: "GET",
   });

@@ -1,15 +1,15 @@
 export interface CalcularRequest {
   metaLingotes: number;
-  mineriosSelecionados: MineriosItem[];
+  mineriosSelecionados: MinerioItem[];
 }
 
 export interface CalcularResponse {
   metaLingotes: number;
-  desperdício_mb: number;
+  desperdicio_mb: number;
   "minérios necessários": Record<string, number>;
 }
 
-export interface MineriosItem {
+export interface MinerioItem {
   id: string;
   nome: string;
   mb: number;

@@ -10,7 +10,7 @@ export const PainelResultado = ({ resultado }: PainelResultadoProps) => {
   if (!resultado) return null;
 
   const metaLingote = resultado.metaLingotes;
-  const desperdício_mb = resultado.desperdício_mb;
+  const desperdício_mb = resultado.desperdicio_mb;
   const mineraisNecessarios = resultado["minérios necessários"];
 
   return (

@@ -24,7 +24,10 @@ describe("testando o Hook de Cálculo", () => {
   it("Deve gerenciar os estados de carregamento e sucesso ao calcular", async () => {
     const dados = {
       metaLingotes: 6,
-      mineriosSelecionados: ["Native copper", "Malachite"],
+      mineriosSelecionados: [
+        { id: "copper_native_copper_raw_normal", nome: "Native copper", mb: 36 },
+        { id: "malachite", nome: "Malachite", mb: 24 },
+      ],
     };
 
     const responsaSucesso = {
