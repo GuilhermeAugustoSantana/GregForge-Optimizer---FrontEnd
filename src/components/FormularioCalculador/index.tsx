@@ -3,6 +3,7 @@ import type { CalcularRequest, MinerioItem } from "../../types/calcular";
 import { Card } from "../Card";
 import { CampoPesquisa } from "../CampoPesquisa";
 
+
 interface FormularioProps {
   onCalcular: (dados: CalcularRequest) => void,
   listaMinerios: MinerioItem[] | null,
@@ -37,7 +38,7 @@ export const Formulario = ({ onCalcular, listaMinerios = [], carregando, setMine
         <label htmlFor="meta">Quantidade de Lingotes</label>
         <input id="meta" type="number" value={meta} onChange={(e) => { setMeta(e.target.value) }} />
         <CampoPesquisa setMinerioPesquisado={setMinerioPesquisado} minerioPesquisado={minerioPesquisado} carregando={carregando} />
-        <ul>
+        <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-0 list-none my-6">
           {listaMinerios && listaMinerios.map(({ id, nome, mb }) => (
             <li key={id}>
               <Card minerio={{ id, nome, mb }} carregando={carregando} estaSelecionado={mineriosSelecionados.some((item) => item.id === id)} aoAlternar={() => alternarMinerioNaLista({ id, nome, mb })} />
