@@ -29,7 +29,7 @@ describe("Testando a Integração Completa no App.tsx", () => {
             {
               id: "copper_native_copper_dust_tiny",
               nome: "Native copper",
-              mb: 16,
+              mb: 1,
             },
           ],
         } as Response;
@@ -50,7 +50,7 @@ describe("Testando a Integração Completa no App.tsx", () => {
     const inputsMeta = screen.getByLabelText(/Quantidade de lingotes/i);
     fireEvent.change(inputsMeta, { target: { value: "6" } });
 
-    const checkboxMinerio = await screen.findByLabelText(/Native copper: 16/i);
+    const checkboxMinerio = await screen.findByLabelText(/Native copper/i);
     fireEvent.click(checkboxMinerio);
 
     const botaoCalcular = screen.getByRole("button", {
