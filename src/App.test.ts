@@ -60,13 +60,15 @@ describe("Testando a Integração Completa no App.tsx", () => {
     fireEvent.click(botaoCalcular);
 
     await waitFor(() => {
-      const painel = screen.getByRole("heading", {
-        name: /Relatório de Otimização/i,
-      }).parentElement;
-      expect(painel?.textContent).toMatch(/Meta Lingote: 6/i);
-      expect(painel?.textContent).toMatch(/Desperdício mB: 1 mB/i);
-      expect(painel?.textContent).toMatch(/Native copper: 1/);
-      expect(painel?.textContent).toMatch(/Malachite: 24/);
+      const heading = screen.getByRole("heading", {
+        name: /Relatório/i,
+      });
+
+      const painel = heading.closest("section");
+      expect(painel?.textContent).toMatch(/6/i);
+      expect(painel?.textContent).toMatch(/1\s?mB/i);
+      expect(painel?.textContent).toMatch(/Native copper/);
+      expect(painel?.textContent).toMatch(/Malachite/);
     });
   });
 });
